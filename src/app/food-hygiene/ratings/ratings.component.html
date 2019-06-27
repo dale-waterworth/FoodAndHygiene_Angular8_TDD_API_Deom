@@ -1,0 +1,16 @@
+<table border="1">
+  <thead>
+    <tr>
+      <th>Rating</th>
+      <th>Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let rating of ratings">
+      <tr *ngIf="rating.percentage">
+        <td>{{rating.ratingName}} </td>
+        <td>{{rating.percentage | number : '1.1-2'}}&#37;</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

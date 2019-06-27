@@ -1,0 +1,10 @@
+<table border="1">
+  <thead>
+    <th>Establishment</th>
+    <th>Rating</th>
+  </thead>
+  <tr *ngFor="let establishment of establishments">
+    <td>{{establishment.BusinessName}}</td>
+    <td>{{establishment.RatingValue}}</td>
+  </tr>
+</table>

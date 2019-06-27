@@ -1,0 +1,114 @@
+<header>
+  <h1>{{content.main.title}}</h1>
+</header>
+
+<!--
+  I found the general pattern to be
+  - idle / waiting
+  - loading
+  - loaded
+  - or error
+  The if else reflects the status of the data
+
+  Ideally these would be mapped to a generic component where the data
+  could be inject
+-->
+
+<section>
+  <div *ngIf="authoritiesStatus === Status.Awaiting; else isAuthItLoading">
+    <!-- Do nothing -->
+  </div>
+  <ng-template #isAuthItLoading>
+
+    <ng-container *ngIf="authoritiesStatus === Status.Loading; else isAuthLoaded">
+
+      {{content.loading.label}}
+
+    </ng-container>
+    <ng-template #isAuthLoaded>
+      <ng-container *ngIf="authoritiesStatus === Status.Loaded; else authError">
+
+        <label><strong>{{content.authorityList.label}}</strong></label>
+
+        <!-- This is imported from a seperate forms module as 
+          forms are commmon place and could be shared throughout the project
+        -->
+        <app-dropdown [listItems]="authorityList" (changedEvent)="authorityChange($event)">
+        </app-dropdown>
+        <hr />
+
+      </ng-container>
+      <ng-template #authError>
+        {{content.error.couldNotGetAuthorities}}
+      </ng-template>
+
+    </ng-template>
+  </ng-template>
+</section>
+
+
+
+
+<section>
+
+  <div *ngIf="establishmentStatus === Status.Awaiting; else isItLoading">
+
+    {{content.establishments.waitingForDropdown}}
+
+  </div>
+  <ng-template #isItLoading>
+
+    <ng-container *ngIf="establishmentStatus === Status.Loading; else isItLoaded">
+
+      {{content.loading.label}}
+
+    </ng-container>
+    <ng-template #isItLoaded>
+      <ng-container *ngIf="establishmentStatus === Status.Loaded; else error">
+
+        <section>
+
+          <label><strong>{{content.ratings.label}}</strong></label>
+
+          <div *ngIf="ratings && ratings.length > 0; noRatings">
+
+            <app-ratings [ratings]="ratings"></app-ratings>
+
+          </div>
+          <ng-template #noRatings>
+
+            {{content.ratings.noResults}}
+
+          </ng-template>
+
+          <hr />
+
+        </section>
+
+        <section>
+
+
+          <label><strong>{{content.establishments.label}}</strong></label>
+
+          <div *ngIf="establishments && establishments.length > 0; noResults">
+
+            <app-establishment-list [establishments]="establishments"></app-establishment-list>
+
+          </div>
+          <ng-template #noResults>
+
+            {{content.establishments.noResults}}
+
+          </ng-template>
+
+        </section>
+
+      </ng-container>
+      <ng-template #error>
+        {{content.error.couldNotGetEstablishments}}
+      </ng-template>
+
+    </ng-template>
+  </ng-template>
+
+</section>

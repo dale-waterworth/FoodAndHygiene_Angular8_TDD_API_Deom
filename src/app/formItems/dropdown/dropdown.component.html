@@ -1,0 +1,11 @@
+  <form [formGroup]="dropDownForm">
+
+    <select formControlName="dropDown" (change)="changeItem()">
+
+      <option *ngFor="let item of listItems" [value]="item.value">
+        {{item.name}}
+      </option>
+
+    </select>
+
+  </form>
